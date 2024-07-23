@@ -1,4 +1,4 @@
-import sys, argparse, os, shutil, cmd, re
+import sys, argparse, os, shutil, cmd, re, zipfile
 
 __all__ = ["VERSION"]
 
@@ -29,7 +29,7 @@ DESCRIPTION_OUTPUT = "The directory to output pygstudio template"
 DEFAULT_OUTPUT_NAME = "New Pygstudio Project"
 
 class CLIPROMPT(cmd.Cmd):
-    intro = f"=== Hello Pygstudio! Made by EF. Version {VERSION} ==="
+    intro = f"Hello Pygstudio! Made by EF. Version {VERSION}"
     prompt = ">>> "
     def do_exit(self, args): sys.exit()
     def do_create(self, args): 
@@ -71,6 +71,12 @@ def copy_template(output_folder, output_name):
         choice = _get_user_choice("Warning: The project exists! Overwrite?")
         if choice == True: shutil.rmtree(output_folder)
         else: return print("Operation is cancelled!")   # returning print nice
+        
+    if not os.path.isdir(template_folder):
+        template_zip = os.path.join(os.path.dirname(template_folder), "template.zip")
+        with zipfile.ZipFile(template_zip, "r") as zip_ref:
+            zip_ref.extractall(template_folder)
+        
     
     shutil.copytree(template_folder, output_folder, ignore=_ignore_dir)
     
@@ -79,7 +85,7 @@ def copy_template(output_folder, output_name):
     with open(main_file_directory, "wt") as main_file: main_file.write(contents)
     os.rename(main_file_directory, output_folder + "\\" + output_name + ".py")
     
-    print(f"Successfully created a new Pygstudio project at {os.path.abspath(os.path.dirname(output_folder))}")
+    print(f"[Pygstudio]: Successfully created a new Pygstudio project at {os.path.abspath(os.path.dirname(output_folder))}")
     
 if __name__ == '__main__': 
     main()

@@ -14,7 +14,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     package_data={
-        "pygstudio": ['template/*', 'template/components/*']
+        "pygstudio": ['template.zip']
     },
     py_modules=['pygstudio'],
     install_requires=[
