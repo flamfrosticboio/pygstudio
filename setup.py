@@ -1,18 +1,20 @@
 from setuptools import setup, find_packages
+from setuptools.command.install import install
+import os
 
 setup(
     name='pygstudio',
-    version='0.1.0',
+    version='0.1.1',
     author='flamfrosticboio',
     author_email='ffe.jhexe@gmail.com',
     description='A tool to help build games easily with pygame.',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     url='https://github.com/flamfrosticboio/pygstudio',
-    packages=find_packages(include=("pygstudio",)),
+    packages=find_packages(),
     include_package_data=True,
     package_data={
-        "pygstudio": ['template/*']
+        "pygstudio": ['template/*', 'template/components/*']
     },
     py_modules=['pygstudio'],
     install_requires=[

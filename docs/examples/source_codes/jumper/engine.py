@@ -25,8 +25,6 @@ def start(scrs, scrc, wndf, wndn, wndi, fps, vsync):
         
         globals.screen.fill(scrc)
         globals.on_render(globals.screen)
-        
-        pygame.display.flip()
         globals.clock.tick(fps)
         
     globals.on_exit()

@@ -12,7 +12,7 @@ if sys.version_info < (3, 8, 0):
          "It is recommended to have python 3.8.0 or above!")
     
 def _ignore_dir(directory, files):
-    return [file for file in files if file.startswith("__") and file.endswith("__")]
+    return ["__pycache__"]
 
 def _get_user_choice(message):
     choice = input(message + " (y/n) ")
@@ -75,11 +75,8 @@ def copy_template(output_folder, output_name):
     shutil.copytree(template_folder, output_folder, ignore=_ignore_dir)
     
     main_file_directory = output_folder + "\\main_game.py"
-    with open(main_file_directory, "rt") as main_file:
-        contents = main_file.read().replace("$MYPYGSTUDIOGAME",  output_name)
-        
+    with open(main_file_directory, "rt") as main_file: contents = main_file.read().replace("$MYPYGSTUDIOGAME",  output_name)
     with open(main_file_directory, "wt") as main_file: main_file.write(contents)
-    
     os.rename(main_file_directory, output_folder + "\\" + output_name + ".py")
     
     print(f"Successfully created a new Pygstudio project at {os.path.abspath(os.path.dirname(output_folder))}")

@@ -1,5 +1,6 @@
 # Pygstudio Example: Overview - Simple block
-> This is the workflow of the entire sample game which you can also follow
+This is the workflow of the entire sample game which you can also follow.
+This also provides a overview of what can pygstudio can do.
 
 ### Step 1: **Make a pygstudio project using pygstudio.**
 1. Open your favorite terminal (cmd/bash/powershell/etc.)
@@ -33,15 +34,15 @@ player = game_classes.Player((0, 0))
 # At: def on_event(event):
 
 if event.type == pygame.KEYDOWN:
-    if event.type == pygame.K_LEFT: movement_map[0] = True
-    if event.type == pygame.K_UP: movement_map[1] = True
-    if event.type == pygame.K_DOWN: movement_map[2] = True
-    if event.type == pygame.K_RIGHT: movement_map[3] = True
+    if event.key == pygame.K_LEFT: movement_map[0] = True
+    if event.key == pygame.K_UP: movement_map[1] = True
+    if event.key == pygame.K_DOWN: movement_map[2] = True
+    if event.key == pygame.K_RIGHT: movement_map[3] = True
 elif event.type == pygame.KEYUP:
-    if event.type == pygame.K_LEFT: movement_map[0] = False
-    if event.type == pygame.K_UP: movement_map[1] = False
-    if event.type == pygame.K_DOWN: movement_map[2] = False
-    if event.type == pygame.K_RIGHT: movement_map[3] = False
+    if event.key == pygame.K_LEFT: movement_map[0] = False
+    if event.key == pygame.K_UP: movement_map[1] = False
+    if event.key == pygame.K_DOWN: movement_map[2] = False
+    if event.key == pygame.K_RIGHT: movement_map[3] = False
 ```
 - Under the `on_render()` bindable function. Delete the initial code and add these lines of code:
 ```
