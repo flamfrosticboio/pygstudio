@@ -1,6 +1,4 @@
 from setuptools import setup, find_packages
-from setuptools.command.install import install
-import os
 
 setup(
     name='pygstudio',
@@ -19,7 +17,7 @@ setup(
     py_modules=['pygstudio'],
     install_requires=[
         'pygame',
-        # need to add more
+        # may need to add more
     ],
     entry_points={
         'console_scripts': [
@@ -27,9 +25,9 @@ setup(
         ],
     },
     classifiers=[
-        'Programming Language :: Python :: 3',
-        'License :: OSI Approved :: MIT License',   # need to change
-        'Operating System :: OS Independent',
+        # 'Programming Language :: Python :: 3',
+        # 'License :: OSI Approved :: MIT License',   # disabled for now
+        # 'Operating System :: OS Independent',
     ],
     python_requires='>=3.8',
 )
