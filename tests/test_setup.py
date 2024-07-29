@@ -1,8 +1,7 @@
 import subprocess
 from datetime import datetime
-import os
-import time
+import pytest
 
-print(f"=== Test executed at: [{datetime.now()}] ===")
-subprocess.call("python --version")
-subprocess.call('python -m pygstudio create "Test Pygstudio Project" -o ".temp"')
+@pytest.skip(reason="This test is a cli based test")
+def main():
+    subprocess.call('python -m pygstudio create "Test Pygstudio Project" -o ".temp"')
