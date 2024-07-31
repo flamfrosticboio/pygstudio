@@ -1,6 +1,4 @@
-Documentation:
+> Documentation:
 - Make more docs for features: 
-    > threaded scripts
-    > importing components
     > non game application example
     > rewriting engine to suit needs 
