@@ -1,14 +1,14 @@
-# // Pygstudio template file created by pygstudio script (Version 1.1) 
+# // Pygstudio template file created by pygstudio script (Version 1.2) 
 # ? You are free to edit this script
 
-def start(scrs, scrc, wndf, wndn, wndi, fps, vsync):
+def start(screen_size, screen_fill_color, window_flags, window_title, window_icon, fps, vsync):
     import pygame
     import globals
     import script_manager
     
-    globals.screen = pygame.display.set_mode(scrs, wndf, 0, 0, vsync)
-    pygame.display.set_caption(wndn)
-    if wndi: pygame.display.set_icon(wndi)
+    globals.screen = pygame.display.set_mode(screen_size, window_flags, 0, 0, vsync)
+    pygame.display.set_caption(window_title)
+    if window_icon: pygame.display.set_icon(window_icon)
     
     globals.on_init()
     script_manager.run()
@@ -20,7 +20,7 @@ def start(scrs, scrc, wndf, wndn, wndi, fps, vsync):
                 globals.running = False
             globals.on_event(event)
         
-        globals.screen.fill(scrc)
+        globals.screen.fill(screen_fill_color)
         globals.on_render(globals.screen)
         
         pygame.display.flip()
