@@ -1,7 +1,7 @@
 import sys, argparse
 
 __all__ = ["__version__", "__pygstudio_version__"]
-__pygstudio_version__ = "1.1"
+__pygstudio_version__ = "1.1a1"
 __version__ = "1.1"
 
 
