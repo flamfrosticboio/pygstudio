@@ -164,3 +164,4 @@ cython_debug/
 # Others
 .vscode/
 .temp/
+pygstudio/config.json
