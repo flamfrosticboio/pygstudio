@@ -1,93 +1,130 @@
-import sys, argparse, os, shutil, cmd, re, zipfile
+import sys, argparse
 
-__all__ = ["__version__"]
+__all__ = ["__version__", "__pygstudio_version__"]
 __pygstudio_version__ = "1.1"
 __version__ = "1.1"
+
 
 def warn(message):
     print("\033[93m" + message + "\033[0m")
 
+
 if sys.version_info < (3, 8, 0):
-    warn("[Warning]: Pygstudio may not work as intended in lower versions of python. " 
-         "It is recommended to have python 3.8.0 or above!")
-    
-def _ignore_dir(directory, files): return ["__pycache__"]
+    warn(
+        "[Warning]: Pygstudio may not work as intended in lower versions of python. "
+        "It is recommended to have python 3.8.0 or above!"
+    )
 
-def _get_user_choice(message):
-    choice = input(message + " (y/n) ")
-    if choice.lower().startswith("y"): return True
-    elif choice.lower().startswith("n"): return False
-    return _get_user_choice(message)
+DEFAULT_RELEASE_OPTIONS = "-w --noconfirm"
 
-# class CLIPROMPT(cmd.Cmd):
-#     intro = f"Hello Pygstudio! Made by EF. Version {__version__}"
-#     prompt = ">>> "
-#     def do_exit(self, args): sys.exit()
-#     def do_create(self, args): 
-#         largs = re.findall(r'\"*.?\"|\S+', args)
-#         print(largs, len(largs))
-#         output_name = DEFAULT_OUTPUT_NAME
-#         output_directory = "."
-#         if len(largs) > 0 and largs[0] != "": output_name = largs[0]
-#         if len(largs) > 1: output_directory = largs[1]
-            
-#         copy_template(output_directory, output_name)
-    
-#     def help_exit(self): print(UPPERHEAD.format("Description") + "\n- Exits pygstudio.")
-#     def help_create(self): print(UPPERHEAD.format("Description") + "\n- " + DESCRIPTION_CREATE + 
-#         f"\n- Usage: create [project_name (default='{DEFAULT_OUTPUT_NAME}')] " 
-#         "[output_directory (default=current_directory)]")
+NOTES = """
+@ Flamfrosticboio
+Developer-Notes:
+
+`python -m pygstudio release --optimize-storage`
+`python -m pygstudio release -s`
+- This enables storage optimization by removing redundant dlls
+- Your game might break if some dlls are removed from the game. Use it as your own risk.
+"""
+
+
+# Placed in a seperate function just to close/fold this monstrosity
+def initialize_parsers():
+    main_parser = argparse.ArgumentParser(
+        prog="pygstudio",
+        description="A cli to easily create pygstudio based games. Addition notes can be found by calling `python -m pygstudio --notes`",
+        epilog="@ pygstudio v1.1 by flamfrosticboio",
+    )
+
+    main_parser.add_argument(
+        "-v",
+        "--version",
+        action="version",
+        help="prints the version of pygstudio and cli",
+        version=f"pygstudio {__pygstudio_version__} (cli version: {__version__})",
+    )
+
+    main_parser.add_argument(
+        "-n",
+        "--notes",
+        action="store_true",
+        help="Print some notes that the developer may include.",
+    )
+
+    subparser = main_parser.add_subparsers(dest="command")
+    create_parser = subparser.add_parser(
+        "create", help="creates a new pygstudio project from template"
+    )
+    release_parser = subparser.add_parser(
+        "release", help="makes a pygstudio project made for release"
+    )
+    config_parser = subparser.add_parser("config", help="configure pygstudio behavior. pass 'REMOVE' to remove that configuration")
+
+    create_parser.add_argument("name", type=str, help="name of the project")
+    create_parser.add_argument(
+        "-o",
+        "--output",
+        type=str,
+        default=".",
+        help='the output directory of the project (default=".")',
+    )
+
+    release_parser.add_argument(
+        "-f", "--folder", type=str, help="the project directory to release", default="."
+    )
+    release_parser.add_argument(
+        "-o", "--output", type=str, help="the output of the project", default=".dest"
+    )
+    release_parser.add_argument(
+        "-x",
+        "--options",
+        type=str,
+        help="options for pyinstaller",
+        default=DEFAULT_RELEASE_OPTIONS,
+    )
+    release_parser.add_argument(
+        "-s",
+        "--optimize-storage",
+        action="store_true",
+        help="enable storage optimization. Read more by calling `python -m pygstudio --notes`",
+    )
+    release_parser.add_argument(
+        "-c",
+        "--no-confirm",
+        action="store_true",
+        help="skips the overwrite confirmation",
+    )
+
+    config_parser.add_argument(
+        "--additional-create-path",
+        help="Path that include folders/files to the new project when `pygstudio create` is called.",
+        type=str
+    )
+
+    return main_parser
+
 
 def main():
-    mparser = argparse.ArgumentParser(
-        prog="pygstudio",
-        description="A cli to easily create pygstudio based games.",
-        epilog="@ pygstudio v1.1 by flamfrosticboio"
-    )
-    
-    subparser = mparser.add_subparsers()
-    parser_create = subparser.add_parser("create", help='creates a new pygstudio project from template')
-    parser_create.add_argument('name', type=str, help="name of the project")
-    parser_create.add_argument("-o", "--output", type=str, default=".", 
-                               help='the output directory of the project (default=".")')
-    mparser.add_argument("-v", "--version", action="version",
-                        help="prints the version of pygstudio and cli",
-                        version=f"pygstudio {__pygstudio_version__} (cli version: {__version__})")
-    
-    args = mparser.parse_args()
-    if not any(vars(args).values()):
+    user_args = initialize_parsers().parse_args()
+    if not any(vars(user_args).values()):
         sys.exit("No arguments provided. Type `pygstudio -h` for help.")
-    elif args.name:
-        copy_template(args.output, args.name)
+    elif user_args.notes:
+        print(NOTES)
+    elif user_args.command == "release":
+        from .release import release_item
+
+        release_item(
+            user_args.folder, user_args.output, user_args.options, flags=user_args
+        )
+    elif user_args.command == "create" and user_args.name:
+        from .create import main
+
+        main(user_args.output, user_args.name)
+    elif user_args.command == "config":
+        from .config import change_config
         
-        
-def copy_template(output_folder, output_name, skip=False):
-    output_folder = os.path.abspath(output_folder) + "\\" + output_name
-    template_folder = os.path.dirname(os.path.abspath(__file__)) + "\\template"
-    
-    if os.path.exists(output_folder) and skip == True:
-        choice = _get_user_choice("Warning: The project exists! Overwrite?")
-        if choice == True: shutil.rmtree(output_folder)
-        else: return print("Operation is cancelled!")   # returning print nice
-        
-    if not os.path.isdir(template_folder):
-        template_zip = os.path.join(os.path.dirname(template_folder), "template.zip")
-        with zipfile.ZipFile(template_zip, "r") as zip_ref:
-            zip_ref.extractall(template_folder)
-        
-    shutil.copytree(template_folder, output_folder, ignore=_ignore_dir)
-    
-    main_file_directory = output_folder + "\\main_game.py"
-    
-    with open(main_file_directory, "rt") as main_file: 
-        contents = main_file.read().replace("$MYPYGSTUDIOGAME",  output_name)
-        
-    with open(main_file_directory, "wt") as main_file: 
-        main_file.write(contents)
-        
-    os.rename(main_file_directory, output_folder + "\\" + output_name + ".py")
-    
-    print(f"Successfully created a new Pygstudio project at '{os.path.abspath(os.path.dirname(output_folder))}'")
-    
-if __name__ == '__main__': 
+        change_config(user_args)
+
+
+if __name__ == "__main__":
     main()
