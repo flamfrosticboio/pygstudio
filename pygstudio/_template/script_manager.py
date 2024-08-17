@@ -1,18 +1,18 @@
-# // Pygstudio template file created by pygstudio script (Version 1.2)
+# // Pygstudio template file created by pygstudio script (Version 1.3.1)
 # ? You are free to edit this script
 
 script_directory = "scripts"
 
-import os
+from os.path import dirname, abspath, join, exists
+from os import listdir
 def run():
     import threading
     
-    current_directory = os.path.dirname(os.path.abspath(__file__))
-    if not os.path.exists(os.path.abspath(current_directory)): return
-    
-    current_script_directory = current_directory + "\\" + script_directory
+    current_directory = dirname(abspath(__file__))
+    current_script_directory = join(current_directory, script_directory)
+    if not exists(abspath(current_script_directory)): return
         
-    threaded_filenames = os.listdir(current_script_directory)
+    threaded_filenames = listdir(current_script_directory)
     threaded_abspath =  script_directory.replace('/', '.').replace("\\", ".")
     for filename in threaded_filenames:
         if filename.startswith("_"): continue
