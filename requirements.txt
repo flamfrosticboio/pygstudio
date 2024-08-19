@@ -1,2 +1,6 @@
 pygame
 pyinstaller
+
+# For Development
+markdown
+pygments
