@@ -48,14 +48,18 @@ def release_item(source_folder, output_folder, other_args: str, flags):
             "Main file is not found. Consider renaming the main file to `main.py` or your <game_name>.py"
         )
 
+    from .config import get_config
+
     details = COMMAND_LINE.format(
         source_folder=source_folder,
         game_name=game_name,
         temp_folder=temp_folder,
         output_folder=output_folder,
-        other_args=other_args,
+        other_args=get_config().get("default_pyinstaller_args", "-w --no-confirm") + " " + other_args,
         file_name=main_file,
     )
+    
+    print(details)
 
     result = call(details)
     rmtree(temp_folder)

@@ -81,7 +81,7 @@ def initialize_release_parsers(subparser):
         "--options",
         type=str,
         help="options for pyinstaller",
-        default=get_config().get("default_pyinstaller_args", "-w --no-confirm"),
+        default="",
     )
     release_parser.add_argument(
         "-s",
