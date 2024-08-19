@@ -7,15 +7,16 @@ from .config import get_config, print_failed_config_details
 _ignore_dir = lambda *args, **kwargs: ["__pycache__"]
 
 
-def main(output_folder, output_name, skip=False):
+def main(output_folder, output_name, flags):
     output_folder = join(abspath(output_folder), output_name)
     template_folder = join(dirname(abspath(__file__)), "template")
 
     if exists(output_folder):
-        print_warning("Warning: The project exists! Overwrite?")
-        choice = get_user_choice()
-        if choice == False:
-            return print_error("Operation is cancelled!")
+        if flags.confirm == False:
+            print_warning("Warning: The project exists! Overwrite?")
+            choice = get_user_choice()
+            if choice == False:
+                return print_error("Operation is cancelled!")
         rmtree(output_folder)
 
     unzip_contents(template_folder, "template.zip")
@@ -29,14 +30,14 @@ def main(output_folder, output_name, skip=False):
         main_file.write(contents)
 
     config_table = get_config()
-    if (filepath := config_table.get("AdditionalCreatePath", None)) is not None:
+    if (filepath := config_table.get("additional_create_path", None)) is not None and flags.exclude_additional_files is False:
         if isfile(filepath):
             copy(filepath, output_folder)
         elif isdir(filepath):
             copytree(filepath, output_folder, dirs_exist_ok=True)
         else:
             print_error(
-                "PygstudioConfigError: Invalid path for configuration 'AdditionCreatePath'. Skipping process!"
+                "PygstudioConfigError: Invalid path for configuration 'additional_create_path'. Skipping process!"
             )
             print_failed_config_details()
 
