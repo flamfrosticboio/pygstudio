@@ -4,12 +4,16 @@ A template to make games easier like what you see in game engines like Unity and
 
 ## How to use pygstudio
 - To create your own pygstudio project, type in your terminal:
-`pygstudio create [NAME]` or `python -m pygstudio create [NAME] -o [DESTINATION]`.
+`pygstudio create [NAME]` or `python -m pygstudio create NAME -o DESTINATION`.
 This will make a new pygstudio template in your directory / destination.
+- To release your own game, type in your terminal:
+`pygstudio release -f PROJECTPATH -o RELEASEPATH`
+- To configure pygstudio, type in your terminal:
+`pygstudio config CONFIGS`
 
 ## What can you do with pygstudio?
-1. Easy configuration - Each file are provided with comments to help you guide in building your game. You can also edit the code if you don't like the code.
-2. Easy access - Your scripts can access various things like the globals, components and assets by putting these lines of code: `import globals` `import components` `pygame.image.load("assets/mypicture.png")` (an example of using assets). Example:
+1. Easy configuration - Each file are provided with comments to help you guide in building your game. You can also edit the code if you don't like the code itself.
+2. Easy access - Your scripts can access various things like the globals, components and assets by putting these lines of code: `import globals` `from components import componentA` `pygame.image.load("assets/mypicture.png")` _(an example of using assets)._ Example:
 ``` python
 # scripts/npc.py
 import pygame, random, globals
@@ -49,23 +53,33 @@ You can now put them in their separate files and they will be executed independe
 ...     # the entire `handle_network` code
 ```
 
-## Template
-The file structure of pygstudio follows (where `NAME` is your project name): 
+4. Easy game release for your friends to test.
+Type in your terminal: `python -m pygstudio release` and it will release your game.
+> Note: The default directory will be your current directory `./` and for the release directory would be `./release`.
 
-_(Version 1.0)_
-```
-[NAME]/
-- [NAME].py
-- globals.py
-- engine.py
-- script_manager.py
-- assets/
-- scripts/
-- components/
-    - __init__.py
+> To change those paths, specify `-f` for project directory and `-o` for release directory
+
+There are other options you can try like changing the icon of the executable.
+Just call `python -m pygstudio release -h` for help
+
+## Template
+The file structure of pygstudio:  _(Version 1.1)_
+``` 
+PROJECT NAME
+├── main.py
+├── globals.py
+├── engine.py
+├── script_manager.py
+├── save.py
+├── assets/
+├── scripts/
+└── components/
+    └── __init__.py
 ```
 
 ## About
-Hello, I am only a developer making this project. If you wish to improve this project, you may fork this repository and add me in the credits of your repository. I will still continue improving this project but I cannot guarantee that I can repond to all your issues as I am only a student in a university. Life is hard!
+Hello, I am only a developer making this project. I am new to github so expect many bugs and stupid decisions in commiting files. 
+
+If you wish to improve this project, you may fork this repository and add me in the credits of your repository. I will still continue improving this project but I cannot guarantee that I can repond to all your issues as I am only a student in a university. Life is hard!
 
 This project is licensed.
