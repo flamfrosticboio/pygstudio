@@ -1,0 +1,87 @@
+
+<!DOCTYPE html><html><head><link rel="stylesheet" href="styles.css"></head><body><h1 id="pygstudio-example-overview-simple-block">Pygstudio Example: Overview - Simple block</h1>
+<p>This is the workflow of the entire sample game which you can also follow.
+This also provides a overview of what can pygstudio can do.</p>
+<h3 id="step-1-make-a-pygstudio-project-using-pygstudio">Step 1: <strong>Make a pygstudio project using pygstudio.</strong></h3>
+<ol>
+<li>Open your favorite terminal (cmd/bash/powershell/etc.)</li>
+<li>Type these in your terminal to create a new pygstudio project (<code>pygstudio create [NAME] -o [DESTINATION]</code>)
+For this example, I will name it <code>my small square</code></li>
+</ol>
+<p>You should have this file structure directory your project to serve as your template: (Name = your project name)</p>
+<pre><code>[Name]/
+- [Name].py
+- globals.py
+- engine.py
+- script_manager.py
+- assets/
+- components/
+- scripts/
+</code></pre>
+<h3 id="step-2-coding-the-game">Step 2: <strong>Coding the game</strong></h3>
+<ol>
+<li>Navigate to your project</li>
+<li>
+<p>Open <code>globals.py</code> your text editor (notepad/vscode/pycharm/etc.) and add this line of codes in <code>globals.py</code></p>
+</li>
+<li>
+<p>This code is placed under the <code>screen</code> variable in <code>globals.py</code></p>
+</li>
+</ol>
+<pre><code class="language-python">from components import game_classes
+movement_map = [False, False, False, False]
+player = game_classes.Player((0, 0))
+</code></pre>
+<blockquote>
+<p>Note: You may expect errors with these code but we will get to it later.</p>
+</blockquote>
+<ul>
+<li>Under the <code>on_event()</code> bindable function. Delete the initial code and add these lines of code:</li>
+</ul>
+<pre><code class="language-python"># At: def on_event(event):
+
+if event.type == pygame.KEYDOWN:
+    if event.key == pygame.K_LEFT: movement_map[0] = True
+    if event.key == pygame.K_UP: movement_map[1] = True
+    if event.key == pygame.K_DOWN: movement_map[2] = True
+    if event.key == pygame.K_RIGHT: movement_map[3] = True
+elif event.type == pygame.KEYUP:
+    if event.key == pygame.K_LEFT: movement_map[0] = False
+    if event.key == pygame.K_UP: movement_map[1] = False
+    if event.key == pygame.K_DOWN: movement_map[2] = False
+    if event.key == pygame.K_RIGHT: movement_map[3] = False
+</code></pre>
+<ul>
+<li>Under the <code>on_render()</code> bindable function. Delete the initial code and add these lines of code:</li>
+</ul>
+<pre><code class="language-python"># At: def on_render(surface):
+
+if movement_map[0]: player.rect.x += -3
+if movement_map[1]: player.rect.y += -3
+if movement_map[2]: player.rect.y += 3
+if movement_map[3]: player.rect.x += 3
+
+screen.blit(player.image, player.rect)
+</code></pre>
+<ol>
+<li>
+<p>Go to <code>components</code> directory and add a file called <code>game_classes.py</code></p>
+<blockquote>
+<p>IMPORTANT: After adding a file in the components directory, run <code>script_manager.py</code> in your game directory to update the import statements required for your scripts.</p>
+</blockquote>
+</li>
+<li>
+<p>Open <code>game_classes.py</code> and add these code inside of it.</p>
+</li>
+</ol>
+<pre><code class="language-python">import pygame
+
+class Player:
+    def __init__(self, position):
+        self.image = pygame.Surface((20, 20))
+        self.rect = pygame.Rect(position, (20, 20))
+</code></pre>
+<h3 id="step-3-run-the-game">Step 3: <strong>Run the game</strong></h3>
+<p>(For <code>pygstudio&lt;=1.0.2</code>) Before running the game, we must update the components import statements by running <code>script_manager.py</code> to update the components import statement. To do that, open the terminal in your game directory and type <code>python script_manager.py</code></p>
+<p>Run the game by calling <code>python [NAME].py</code> where <code>NAME</code> is your game name. For my example, it is <code>my small square</code> so I will type in <code>python "my small square.py"</code> (double quotes <code>"</code> for spaces)</p>
+<p>Now you should have a working moving block game whenever you press your arrow keys in your keyboard.</p></body></html>

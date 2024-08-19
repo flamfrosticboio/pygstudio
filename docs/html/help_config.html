@@ -1,0 +1,22 @@
+
+<!DOCTYPE html><html><head><link rel="stylesheet" href="styles.css"></head><body><h2 id="documentation-pygstudio-config">Documentation: Pygstudio Config</h2>
+<p><code>pygstudio config</code> takes either 3 positional arguments <code>[set | get | remove]</code></p>
+<p><code>pygstudio config set</code> sets a configuration. 
+With no keywords passed, it will do nothing.
+To set a configuration, enter its configuration name and specify its value.
+Example: <code>pygstudio config set --additional-create-path "C:/.config"</code></p>
+<p><code>pygstudio config get</code> gets a configuration. 
+With no keywords passed, it will list the whole configuration.
+To get a specific configuration, pass its configuration name only.
+Example: <code>pygstudio config get --additional-create-path</code>.</p>
+<p>It also takes multiple configuration keys.
+Example: <code>pygstudio config get --additional-create-path --default-pyinstaller-args ...</code></p>
+<p><code>pygstudio config remove</code> resets a configuration.
+With no keywords passed, it will do nothing.
+To reset a configuration, enter its configuration name only.
+Example: <code>pygstudio config remove --addition-create-path</code></p>
+<h3 id="available-configuration-keys">Available Configuration Keys</h3>
+<ul>
+<li><code>--additional-create-path</code> <em>(additional_create_path) (default=None)</em>: Path that include folders/files to the new project when <code>pygstudio create</code> is called.</li>
+<li><code>--default-pyinstaller-args</code> <em>(default_pyinstaller_args) (default="-w --noconfirm")</em>: Default pyinstaller args that is combined with 'pygstudio release -x'.</li>
+</ul></body></html>
