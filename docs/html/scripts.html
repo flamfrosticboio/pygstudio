@@ -1,0 +1,140 @@
+
+<!DOCTYPE html><html><head><link rel="stylesheet" href="styles.css"></head><body><h1 id="pygstudio-example-scripts-jumper">Pygstudio Example: Scripts - Jumper</h1>
+<p>A source code that makes a simple jumping game using a feature <code>scripts</code>.</p>
+<blockquote>
+<p>Recommend reading the example overview. </p>
+</blockquote>
+<h3 id="step-1-make-a-pygstudio-project-using-pygstudio">Step 1: <strong>Make a pygstudio project using pygstudio.</strong></h3>
+<p>Using your terminal, create a new pygstudio project using <code>python -m pygstudio create [NAME]</code> (for my example: <code>python -m pygstudio create jumper</code>)</p>
+<h3 id="step-2-coding-the-game">Step 2: <strong>Coding the game</strong></h3>
+<ol>
+<li>Navigate to your project</li>
+<li>In the scripts directory in your project, create a new file called <code>physics.py</code>. This will be your physics simulation script for your player.</li>
+<li>In the components directory in your project, create a new file called <code>player.py</code>. This will store the player class.</li>
+</ol>
+<p>Now you should have a project directory like this (where <code>NAME</code> is your project name):</p>
+<pre><code>[NAME]/
+├── assets/
+├── components/
+│   ├── __init__.py
+│   └── player.py
+├── scripts/
+│   └── physics.py
+├── globals.py
+├── script_manager.py
+├── [NAME].py
+└── engine.py
+</code></pre>
+<ol>
+<li>In our <code>globals.py</code>:</li>
+</ol>
+<p>Add these lines of code under the variable <code>screen</code>. This is our global variables that is accessible to our scripts. </p>
+<pre><code class="language-python">from components.player import Player, Block
+player = Player((200, 50))
+mvmap = [False, False, False]
+blocks = [
+    Block((10, 400), (200, 10)),
+    Block((450, 400), (200, 10)),
+    Block((200, 375), (250, 10))
+]
+
+PLAYER_SPEED = 3
+PLAYER_JUMPPOWER = 5
+AIRTIME_THRESHOLD = 3
+FRICTION = 0.8
+GRAVITY = 20
+
+player_vel_x = 0
+player_vel_y = 0 
+air_time = 0
+</code></pre>
+<p>In our bindable function <code>on_event(event: pygame.event.Event)</code>, add these lines of code. This will keep track of our keypresses</p>
+<pre><code class="language-python">global player_vel_x, player_vel_y
+if event.type == pygame.KEYDOWN:
+    if event.key == pygame.K_UP: mvmap[0] = True
+    elif event.key == pygame.K_LEFT: mvmap[1] = True
+    elif event.key == pygame.K_RIGHT: mvmap[2] = True
+elif event.type == pygame.KEYUP:
+    if event.key == pygame.K_UP: mvmap[0] = False
+    elif event.key == pygame.K_LEFT: mvmap[1] = False
+    elif event.key == pygame.K_RIGHT: mvmap[2] = False
+</code></pre>
+<p>Lastly, in our bindable function <code>on_render(surface: pygame.Surface)</code>, add these lines of code to render our blocks and player.</p>
+<pre><code class="language-python">for block in blocks: block.render(screen)
+player.render(screen)
+</code></pre>
+<blockquote>
+<p>Tip: Coding is not following the format everyone uses but to at least make it readable to others.</p>
+</blockquote>
+<ol>
+<li>In our <code>components/player.py</code>, we add these lines of code to define our player and block.</li>
+</ol>
+<pre><code class="language-python">import pygame as pg
+
+class Player:
+    def __init__(self, pos) -&gt; None:
+        self.image = pg.Surface((20, 20))
+        self.rect = pg.Rect(pos, (20, 20))
+
+    def render(self, surface):
+        surface.blit(self.image, self.rect)
+
+class Block:
+    def __init__(self, pos, size):
+        self.image = pg.Surface(size)
+        self.rect = pg.Rect(pos, size)
+
+    def render(self, surface):
+        surface.blit(self.image, self.rect)
+</code></pre>
+<ol>
+<li>In our <code>scripts/physics.py</code>, we add these lines of code to make the player have physics.</li>
+</ol>
+<pre><code class="language-python">from time import time, sleep
+import globals
+# it is also possible to do `from globals import *`
+
+fps = 1/60
+last_dt = 0
+
+while globals.running:
+    # A good game developer always use delta time for physics and animation (dt)
+    dt = time() - last_dt
+
+    if globals.mvmap[0] and globals.air_time &lt;= globals.AIRTIME_THRESHOLD: 
+        globals.player_vel_y = -globals.PLAYER_JUMPPOWER
+
+    if globals.mvmap[1] and globals.mvmap[2]: pass
+    elif globals.mvmap[1]: globals.player_vel_x = -globals.PLAYER_SPEED
+    elif globals.mvmap[2]: globals.player_vel_x = globals.PLAYER_SPEED
+
+    globals.player_vel_y += (globals.GRAVITY * fps)
+    globals.player.rect.y += int(globals.player_vel_y)
+    globals.air_time += 1
+
+    # Checking collision at y level
+    for block in globals.blocks:
+        collided = globals.player.rect.colliderect(block.rect)
+        if collided:
+            globals.player_vel_y = 0
+            globals.air_time = 0
+            globals.player.rect.bottom = block.rect.top
+
+    globals.player.rect.x += int(globals.player_vel_x)
+    globals.player_vel_x *= globals.FRICTION
+
+    # Checking collision at x level
+    for block in globals.blocks:
+        collided = globals.player.rect.colliderect(block.rect)
+        if collided:
+            if globals.player_vel_x &gt; 0:
+                globals.player.rect.right = block.rect.left
+            elif globals.player_vel_x &lt; 0:
+                globals.player.rect.left = block.rect.right
+            globals.player_vel_x = 0
+
+    last_dt = time()
+    sleep(fps)
+</code></pre>
+<h3 id="step-3-run-the-game">Step 3: Run the game</h3>
+<p>From your terminal, type <code>python [NAME].py</code> (where <code>NAME</code> is your project name) to run the game.</p></body></html>

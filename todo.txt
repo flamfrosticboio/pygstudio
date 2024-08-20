@@ -1,4 +1,0 @@
-> Documentation:
-- Make more docs for features: 
-    > non game application example
-    > rewriting engine to suit needs 

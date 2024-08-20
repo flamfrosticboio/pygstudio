@@ -1,10 +1,8 @@
-# // Pygstudio template file created by pygstudio script (Version 1.2) 
+# // Pygstudio template file created by pygstudio script (Version 1.3.1) 
 # ? You are free to edit this script
 
 def start(screen_size, screen_fill_color, window_flags, window_title, window_icon, fps, vsync):
-    import pygame
-    import globals
-    import script_manager
+    import pygame, globals, script_manager
     
     globals.screen = pygame.display.set_mode(screen_size, window_flags, 0, 0, vsync)
     pygame.display.set_caption(window_title)

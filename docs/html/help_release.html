@@ -1,0 +1,24 @@
+
+<!DOCTYPE html><html><head><link rel="stylesheet" href="styles.css"></head><body><h2 id="documentation-pygstudio-release">Documentation: Pygstudio Release</h2>
+<p><code>pygstudio release</code> takes no positional argument.
+By default, the arguments passed are: </p>
+<ul>
+<li><em>project folder</em> = "."</li>
+<li><em>release folder</em> = "./release"</li>
+</ul>
+<h3 id="optional-arguments">Optional Arguments</h3>
+<ul>
+<li><code>-f</code>, <code>--folder</code>: the project directory to be release. Example: 'pygstudio release -f "C:/projects/python/my small square"'</li>
+<li><code>-o</code>, <code>--output</code>: the output folder for the released game. Example: 'pygstudio release -o "C:/projects/python/releases/my small square"'</li>
+<li><code>-x</code>, <code>--options</code>: the options for pyinstaller. This appends to your existing <em>default-pyinstaller-argument</em> configuration.</li>
+<li><code>-c</code>, <code>--confirm</code>: Skips prompts like overwrite project.</li>
+<li>
+<p><code>-s</code>, <code>--optimize-storage</code>: enable storage optimization by removing redundant dll's in the folder. </p>
+<blockquote>
+<p>Warning: Your game might break so use this at your own risk!</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="practical-uses">Practical Uses</h3>
+<p>For your game to have a icon for the executable, you specify <code>-x</code> argument. Example:
+<code>python -m pygstudio release -f "C:/projects/my game" -o "C:/releases/my game" -x '--icon "C:/projects/my game/game.ico"'</code></p></body></html>
