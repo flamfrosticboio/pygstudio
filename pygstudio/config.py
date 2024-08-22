@@ -84,7 +84,6 @@ def reset_config(config):
     save_configuration(table)
 
 def main(config):
-    print(config)
     if config.config_command == "set":
         change_configuration(config)
     elif config.config_command == "get":
