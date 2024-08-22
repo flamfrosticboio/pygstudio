@@ -141,6 +141,12 @@ def initialize_parsers():
         help="Print some notes that the developer may include.",
     )
 
+    main_parser.add_argument(
+        "--path",
+        help="Print the path of pygstudio folder",
+        action="store_true",
+    )
+
     subparser = main_parser.add_subparsers(dest="command")
     initialize_create_parsers(subparser)
     initialize_release_parsers(subparser)
@@ -158,6 +164,10 @@ def main():
         sys.exit(0)
     elif user_args.notes:
         print(NOTES)
+    elif user_args.path:
+        from os.path import dirname
+
+        print("Pygstudio path:", dirname(__file__))
     elif user_args.command == "release":
         from .release import release_item
 
