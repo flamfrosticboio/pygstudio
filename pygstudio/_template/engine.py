@@ -8,7 +8,7 @@ def start(screen_size, screen_fill_color, window_flags, window_title, window_ico
     pygame.display.set_caption(window_title)
     if window_icon: pygame.display.set_icon(window_icon)
     
-    globals.on_init()
+    globals.on_init(globals.screen)
     script_manager.run()
     
     globals.running = True
