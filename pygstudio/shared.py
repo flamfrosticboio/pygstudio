@@ -21,8 +21,6 @@ def print_log(message):
 def print_success(message):
     print("\033[92m"+message+"\033[0m")
     
-def unzip_contents(folder, zipfile):
-    if not isdir(folder):
-        template_zip = join(dirname(folder), zipfile)
-        with ZipFile(template_zip, "r") as zip_ref:
-            zip_ref.extractall(folder)
+def unzip_contents(zipfile, dest):
+    with ZipFile(zipfile, "r") as zip_ref:
+        zip_ref.extractall(dest)

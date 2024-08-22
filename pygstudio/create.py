@@ -9,7 +9,6 @@ _ignore_dir = lambda *args, **kwargs: ["__pycache__"]
 
 def main(output_folder, output_name, flags):
     output_folder = join(abspath(output_folder), output_name)
-    template_folder = join(dirname(abspath(__file__)), "template")
 
     if exists(output_folder):
         if flags.confirm == False:
@@ -18,9 +17,8 @@ def main(output_folder, output_name, flags):
             if choice == False:
                 return print_error("Operation is cancelled!")
         rmtree(output_folder)
-
-    unzip_contents(template_folder, "template.zip")
-    copytree(template_folder, output_folder, ignore=_ignore_dir)
+        
+    unzip_contents(abspath(join(__file__, "..", "template.zip")), output_folder)
     main_file_directory = join(output_folder, "main.py")
 
     with open(main_file_directory, "rt") as main_file:
