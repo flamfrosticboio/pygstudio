@@ -1,4 +1,4 @@
-# // Pygstudio template file created by pygstudio script (Version 2.0)
+# // Pygstudio template file created by pygstudio script (Version 2.0.1)
 # ? You are free to edit this script
 
 import pygame
@@ -18,15 +18,15 @@ screen = pygame.display.set_mode((720, 480))
 
 
 def on_event(event: pygame.event.Event) -> None:
-    # * This bindable function is called in every event.
+    # * Bindable function for handling every event (in a for loop).
     pass
 
 
 def on_render(screen: pygame.Surface) -> None:
-    # * This bindable function is executed in every rendered step.
+    # * Bindable function for rendering objects to screen.
     pass
 
 
 def on_exit():
-    # * This bindable function is executed when the game exits
+    # * Bindable function for closing the program.
     pass
