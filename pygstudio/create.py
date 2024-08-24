@@ -19,7 +19,7 @@ def main(output_folder, output_name, flags):
         rmtree(output_folder)
         
     unzip_contents(abspath(join(__file__, "..", "template.zip")), output_folder)
-    main_file_directory = join(output_folder, "main.py")
+    main_file_directory = join(output_folder, "globals.py")
 
     with open(main_file_directory, "rt") as main_file:
         contents = main_file.read().replace("$MYPYGSTUDIOGAME", output_name)
