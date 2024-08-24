@@ -12,14 +12,18 @@ DEFAULT_CONFIGURATION = {
     "default_pyinstaller_args": "-w --noconfirm",
 }
 
+def print_table_line(key, value):
+    print(f"| \033[93m{key}\033[0m = \033[34m{repr(value)}\033[0m")
 
 def print_table(table):
     for key in table:
-        print(f"| \033[93m{key}\033[0m = \033[34m{repr(table.get(key))}\033[0m")
+        print_table_line(key, table.get(key))
 
-
+failed_details_text = f"""Details: 
+config_file={config_path}"""
 def print_failed_config_details():
-    print_log(f"Details: config_file={config_path}")
+    print_log(failed_details_text)
+    print_table(get_config())
 
 
 def save_configuration(new_config_table):

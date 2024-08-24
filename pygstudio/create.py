@@ -4,9 +4,6 @@ from os.path import abspath, dirname, exists, isdir, isfile, join
 from .shared import *
 from .config import get_config, print_failed_config_details
 
-_ignore_dir = lambda *args, **kwargs: ["__pycache__"]
-
-
 def main(output_folder, output_name, flags):
     output_folder = join(abspath(output_folder), output_name)
 
@@ -35,7 +32,7 @@ def main(output_folder, output_name, flags):
             copytree(filepath, output_folder, dirs_exist_ok=True)
         else:
             print_error(
-                "PygstudioConfigError: Invalid path for configuration 'additional_create_path'. Skipping process!"
+                "ConfigurationError: Invalid path for configuration 'additional_create_path'. Skipping process!"
             )
             print_failed_config_details()
 
