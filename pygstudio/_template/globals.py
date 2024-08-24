@@ -14,10 +14,6 @@ clock = pygame.time.Clock()
 screen_size = pygame.Rect(0, 0, 720, 480)
 screen = pygame.display.set_mode(screen_size.size)
 #############################################
-
-# * Others (put other variables here)
-
-
 def on_event(event: pygame.event.Event) -> None:
     # * Bindable function for handling every event (in a for loop).
     pass
@@ -31,3 +27,6 @@ def on_render(screen: pygame.Surface) -> None:
 def on_exit():
     # * Bindable function for closing the program.
     pass
+#############################################
+
+# * Others (put other variables here)
