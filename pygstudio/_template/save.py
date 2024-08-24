@@ -1,40 +1,14 @@
-# // Pygstudio template file created by pygstudio script (Version 1.0)
+# // Pygstudio template file created by pygstudio script (Version 1.1)
 # ? You are free to edit this script
-
-from typing import Dict, List, Union
+# ! Stub file exists
 
 import os
 from json import loads, dumps
 
-JsonValue = Union[
-    Dict[str, "JsonValue"], List["JsonValue"], str, bool, int, float, None
-]
-__all__ = [
-    "get_save_folder",
-    "set_save_folder",
-    "save_file_raw",
-    "save_file",
-    "read_file_raw",
-    "read_file",
-    # # ? Uncomment these and other comments under the file encryption section
-    # # ?   if you use the file encryption
-    # "save_file_encrypted",
-    # "read_file_encrypted"
-]
-
-SaveFolder = os.path.join(__file__, "..", "saves")
+SaveFolder = os.path.abspath(os.path.join(__file__, "..", "saves"))
 
 
-def get_save_folder():
-    return SaveFolder
-
-
-def set_save_folder(path: str):
-    global SaveFolder
-    SaveFolder = path
-
-
-def save_file_raw(filename: str, data: Union[str, bytes], mode: str = "wt"):
+def save_file_raw(filename, data, mode="wt"):
     filename = os.path.join(SaveFolder, filename)
     if not os.path.exists(os.path.dirname(filename)):
         os.makedirs(os.path.dirname(filename))
@@ -42,11 +16,11 @@ def save_file_raw(filename: str, data: Union[str, bytes], mode: str = "wt"):
         file.write(data)
 
 
-def save_file(filename: str, data: JsonValue):
+def save_file(filename, data):
     save_file_raw(filename, dumps(data))
 
 
-def read_file_raw(filename: str, mode: str = "rt") -> Union[str, bytes]:
+def read_file_raw(filename, mode="rt"):
     filename = os.path.join(SaveFolder, filename)
     if not os.path.exists(filename):
         return ""
@@ -54,11 +28,17 @@ def read_file_raw(filename: str, mode: str = "rt") -> Union[str, bytes]:
         return file.read()
 
 
-def read_file(filename: str) -> JsonValue:
+def read_file(filename):
     data = read_file_raw(filename)
     if len(data) == 0:
         return None
     return loads(data)
+
+def save(data):
+    return save_file("save", data)
+
+def read():
+    return read_file("read")
 
 
 # * Code that encrypts your saves (Uncomment them if you use it)
@@ -72,7 +52,7 @@ def read_file(filename: str) -> JsonValue:
 # KEY = b""  # Add your key here
 
 
-# def encrypt_text(text: str):
+# def encrypt_text(text):
 #     iv = os.urandom(16)
 #     encryptor = Cipher(
 #         algorithms.AES(KEY), modes.CBC(iv), backend=default_backend()
@@ -98,13 +78,13 @@ def read_file(filename: str) -> JsonValue:
 #     )
 
 
-# def save_file_encrypted(filename: str, data: JsonValue):
+# def save_file_encrypted(filename, data):
 #     data = dumps(data)
 #     encrypted = encrypt_text(data)
 #     save_file_raw(filename, encrypted, "wb")
 
 
-# def read_file_encrypted(filename: str) -> JsonValue:
+# def read_file_encrypted(filename):
 #     data = read_file_raw(filename, mode="rb")
 #     if len(data) == 0:
 #         return None

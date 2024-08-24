@@ -1,4 +1,4 @@
-# // Pygstudio template file created by pygstudio script (Version 2.0.1)
+# // Pygstudio template file created by pygstudio script (Version 2.1)
 # ? You are free to edit this script
 
 import pygame
@@ -11,7 +11,8 @@ FPS = 60
 
 running: bool = False
 clock = pygame.time.Clock()
-screen = pygame.display.set_mode((720, 480))
+screen_size = pygame.Rect(0, 0, 720, 480)
+screen = pygame.display.set_mode(screen_size.size)
 #############################################
 
 # * Others (put other variables here)
