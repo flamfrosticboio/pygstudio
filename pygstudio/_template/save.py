@@ -38,7 +38,7 @@ def save(data):
     return save_file("save", data)
 
 def read():
-    return read_file("read")
+    return read_file("save")
 
 
 # * Code that encrypts your saves (Uncomment them if you use it)
