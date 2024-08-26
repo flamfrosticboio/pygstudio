@@ -1,6 +1,6 @@
 # // Pygstudio template file created by pygstudio script (Version 1.1)
 # ? You are free to edit this script
-# ! Stub file exists
+# ! Stub file exists. Be sure to visit it also
 
 import os
 from json import loads, dumps
