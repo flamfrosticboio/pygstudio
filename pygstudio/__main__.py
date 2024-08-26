@@ -118,6 +118,16 @@ def initialize_config_parsers(subparser):
         config_remove.add_argument(command, help=help, action="store_true")
 
 
+def initialize_addon_parsers(subparser):
+    addon_parser = subparser.add_parser("addon", help="adds addons to this project")
+    addon_subparser = addon_parser.add_subparsers(dest="addon_command")
+    
+    addon_subparser.add_parser("list", help="list all built-in addons")
+    addon_add = addon_subparser.add_parser("add", help="add an addon to the project")
+    
+    addon_add.add_argument("items", nargs="+", help="the names of the addons to add to your project")
+    addon_add.add_argument("-o", "--output", help="the output directory for your components", default="./components")
+
 # Placed in a seperate function just to close/fold this monstrosity
 def initialize_parsers():
     main_parser = argparse.ArgumentParser(
@@ -151,6 +161,7 @@ def initialize_parsers():
     initialize_create_parsers(subparser)
     initialize_release_parsers(subparser)
     initialize_config_parsers(subparser)
+    initialize_addon_parsers(subparser)
 
     return main_parser
 
@@ -181,6 +192,10 @@ def main():
     elif user_args.command == "config":
         from .config import main
 
+        main(user_args)
+    elif user_args.command == "addon":
+        from .addons import main
+        
         main(user_args)
 
 
