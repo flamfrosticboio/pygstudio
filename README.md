@@ -71,11 +71,15 @@ PROJECT NAME
 ├── engine.py
 ├── script_manager.py
 ├── save.py
+├── save.pyi
 ├── assets/
 ├── scripts/
 └── components/
     └── __init__.py
 ```
+
+## Issues
+The issues section of this repository is for putting up issues found by myself so you would see issues started by me. If you found an issue with this project, you may leave an issue in the issue section of this repository.
 
 ## About
 Hello, I am only a developer making this project. I am new to github so expect many bugs and stupid decisions in commiting files. 
