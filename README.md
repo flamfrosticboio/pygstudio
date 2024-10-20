@@ -1,4 +1,4 @@
-# Pygstudio
+# <img src="https://github.com/flamfrosticboio/pygstudio/blob/master/assets/icon.png" alt="icon.png" width="60"/> Pygstudio
 
 A template to make games easier like what you see in game engines like Unity and Roblox.
 
